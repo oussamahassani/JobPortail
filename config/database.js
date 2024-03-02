@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://localhost:27017/jobApp?retryWrites=true&w=majority';
+var mongoDB = 'mongodb+srv://bahrinawres39:nawres@cluster0.hhkwcqp.mongodb.net/jobiapp?retryWrites=true&w=majority&appName=Cluster0';
 mongoose.set('strictQuery', true);
 mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
 
