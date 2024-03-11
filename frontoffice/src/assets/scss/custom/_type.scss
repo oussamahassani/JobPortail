@@ -1,0 +1,143 @@
+// General styles
+
+p {
+	font-size: $paragraph-font-size;
+	font-weight: $paragraph-font-weight;
+	line-height: $paragraph-line-height;
+	padding-top: 3%;
+}
+
+.lead {
+	font-size: $lead-font-size;
+  	font-weight: $lead-font-weight;
+	line-height: $paragraph-line-height;
+	margin-top: 1.5rem;
+
+	+ .btn-wrapper {
+		margin-top: 3rem;
+	}
+}
+
+.description {
+	font-size: $font-size-sm;
+}
+
+// Headings
+
+.heading {
+	letter-spacing: $heading-letter-spacing;
+	font-size: $heading-font-size;
+	text-transform: $heading-text-transform;
+	font-weight: $heading-font-weight;
+}
+
+.heading-title {
+	letter-spacing: $heading-title-letter-spacing;
+	font-size: $heading-title-font-size;
+	font-weight: $heading-title-font-weight;
+	text-transform: $heading-title-text-transform;
+	color: $heading-title-color-dark;
+	text-shadow: $heading-shadow-light;
+}
+
+.heading-subtitle {
+	letter-spacing: $heading-subtitle-letter-spacing;
+	font-size: $heading-subtitle-font-size;
+	font-weight: $heading-subtitle-font-weight;
+	text-transform: $heading-subtitle-text-transform;
+	color: $heading-title-color-dark;
+	text-shadow: $heading-shadow-light;
+}
+
+.title-login {
+	letter-spacing: $heading-title-letter-spacing;
+	font-size: $heading-title-font-size;
+	font-weight: $heading-title-font-weight;
+	color: $secondary;
+	text-transform: $heading-title-text-transform;
+}
+
+.heading-section {
+	letter-spacing: $heading-section-letter-spacing;
+	font-size: $heading-section-font-size;
+	font-weight: $heading-section-font-weight;
+	text-transform: $heading-section-text-transform;
+	color: $heading-title-color-light;
+	text-shadow: $heading-shadow-dark;
+
+	img {
+		display: block;
+		width: 72px;
+		height: 72px;
+		margin-bottom: 1.5rem;
+	}
+
+	&.text-center {
+		img {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+}
+
+// Section titles
+
+.display-1,
+.display-2,
+.display-3,
+.display-4 {
+	span {
+		display: block;
+		font-weight: $font-weight-light;
+	}
+}
+
+
+// Articles
+
+article {
+	h4:not(:first-child),
+	h5:not(:first-child) {
+		margin-top: 3rem;
+	}
+
+	h4, h5 {
+		margin-bottom: 1.5rem;
+	}
+
+	figure {
+		margin: 3rem 0;
+	}
+
+	h5 + figure {
+		margin-top: 0;
+	}
+}
+
+// Login
+.circle-1 {
+	width:200px;
+	height:200px;
+	border-radius: 50%;
+	position: relative;
+	margin: 0 0 2%;
+}
+
+.circle-1 img {
+	width:200px;
+	height:200px;
+	border-radius: 50%;
+	border:5px solid $primary;
+	overflow: hidden;
+	cursor:pointer;
+	transition: all 0.2s linear;
+	-webkit-transition: all 0.2s linear;
+}
+.circle-1:hover img {
+	transform: scale(1.1);
+	-ms-transform: scale(1.1);
+	-webkit-transform: scale(1.1);
+	box-shadow: 2px 2px 2px #4b4b4b;
+	border:0px solid $primary;
+
+}
