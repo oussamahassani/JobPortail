@@ -4,13 +4,13 @@
         <!-- Articles -->
         <article v-if="articles.length" v-for="article in filteredArticles" :key="article.slug">
             <h3>
-                <router-link :to="`/article/${article.slug}`">
+                <router-link :to="`/article/${article._id}`">
                     {{ article.title }}
                 </router-link>
             </h3>
             <div>
                 {{ article.description }}
-                <router-link :to="`/article/${article.slug}`">
+                <router-link :to="`/article/${article._id}`">
                     + continue reading
                 </router-link>
             </div>
@@ -25,6 +25,7 @@
 
 <script>
 import axios from 'axios'
+import {API_BASE_URL,ALL_ARTICLE_ENDPOINT} from '../store/constant'
 const generateFakeData = () => {
     const fakeData = [];
 
@@ -49,12 +50,12 @@ export default {
     },
     mounted() {
 
-        this.articles = generateFakeData()
-        /* axios
-         .get("/article/") 
+      //  this.articles = generateFakeData()
+         axios
+         .get(API_BASE_URL+ALL_ARTICLE_ENDPOINT) 
          .then(response => {
              this.articles = response.data
-         })*/
+         })
     },
     methods: {
     callFetchCategoryData() {

@@ -2,8 +2,8 @@
     <div class="Home">
         <h1>helloe</h1>
         <!-- Articles -->
-        <h2>{{ article.title }}</h2>
-        <p>{{ article.description }}</p>
+        <h2>{{ article.title ? article.title : "" }}</h2>
+        <p>{{ article.description ? article.description : "" }}</p>
         
 
 
@@ -12,6 +12,7 @@
 
 <script>
 import axios from 'axios'
+import {API_BASE_URL,ONE_ARTICLE_ENDPOINT} from '../store/constant'
 const generateFakeData = () => {
     const fakeData = [];
 
@@ -39,11 +40,15 @@ export default {
 
         this.allarticles = generateFakeData()
         this.article = this.allarticles.filter(el => el.slug == this.$route.params.slug)[0]
-        /* axios
-         .get("/article/") 
-         .then(response => {
-             this.articles = response.data
-         })*/
+        axios
+        .get(API_BASE_URL+ONE_ARTICLE_ENDPOINT+`/${this.$route.params.slug}`) 
+        .then(response => {
+        this.article = response.data
+      console.log(response);
+        })
+        .catch(error => {
+          this.error = true
+        })
     },
     computed: {
 
