@@ -4,7 +4,7 @@ const app = express();
 const { Server } = require("socket.io");
 const http = require("http");
 const path = require('path');
-const fileUploadMiddleware = require('./middlewares/auth');
+const fileUploadMiddleware = require('./middlewares/upload');
 
 app.use(cors());
 app.use(express.json());
@@ -12,21 +12,17 @@ require('dotenv').config()
 app.use(express.urlencoded({ extended: true }));
 const db = require("./config/database");
 
-const userrouter = require('./routes/users.routes');
+const userRouter = require('./routes/users.routes');
+const blogRouter = require('./routes/Blog.routes');
 
 
 
 
 
+app.use('/users', userRouter)
+app.use('/blog', blogRouter)
 
-app.use('/users', userrouter)
 
-
-
-app.get("/user/:user", (req, res) => {
-  let user = req.params.user
-  res.json({ message: "Hii " + user });
-});
 // Define the upload route
 app.post('/api/affinda/resume/upload', fileUploadMiddleware.handleFileUpload, (req, res) => {
   // Read the file from the uploads folder

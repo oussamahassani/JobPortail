@@ -1,5 +1,6 @@
 const user = require('../controllers/users.controller.js');
-
+const validationLogin = require('../validation/loginvalidation.js');
+const signupValidation = require('../validation/signupvalidation.js')
 var router = require('express').Router();
 const middleware = require("../middlewares/auth");
 
@@ -12,8 +13,8 @@ router.delete('/:id_user', user.delete);
 router.get('/', user.findAll);
 router.post('/filter', user.findByFilter);
 router.get('/role/:role', user.findAllByRole);
-router.post('/signup', user.signup);
-router.post('/login', user.login);
+router.post('/signup', signupValidation, user.signup, validationLogin.validationsProccess);
+router.post('/login', validationLogin.validations, validationLogin.validationsProccess, user.login);
 router.get('/:id', user.findOne);
 router.patch('/:id', user.updateOne);
 

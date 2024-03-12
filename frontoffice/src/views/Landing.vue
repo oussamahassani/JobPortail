@@ -5,7 +5,7 @@
         <div class="col-lg-6 col-xl-5 mt-10">
           <div class="text-container">
             <h1>Get out of your comfort zone and earn some experience</h1>
-            <p class="p-large">GetIn-EXP is the job-finder platform created for young inexperienced people who want to enter the laboral market, wether they have high level studies (University, FP...) or not.</p>
+            <p class="p-large">Jobi-App is the job-finder platform created for young inexperienced people who want to enter the laboral market, wether they have high level studies (University, FP...) or not.</p>
             <a class="btn-solid-lg" href="#services">Offered services</a>
           </div>
         </div>
@@ -35,7 +35,7 @@
             </div>
             <div class="card-body">
               <h5 class="card-title">Analyse your product</h5>
-              <p class="text-justify">GetIn-EXP is the job-finder platform created for young inexperienced people who want to enter the job market, wether they have high level studies or not. </p>
+              <p class="text-justify">Jobi-App is the job-finder platform created for young inexperienced people who want to enter the job market, wether they have high level studies or not. </p>
               <a class="read-more no-line" href="#about">Learn more <span class="fas fa-long-arrow-alt-right"></span></a>
             </div>
           </div>

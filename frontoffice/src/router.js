@@ -1,7 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import AppHeader from "./layout/AppHeader";
-import AppFooter from "./layout/AppFooter";
 import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
@@ -31,68 +29,72 @@ export default new Router({
       path: "/home",
       name: "homepage",
       components: {
-        header: AppHeader,
+        header: StarterHeader,
         default: Home,
-        footer: AppFooter
+        footer: StarterFooter
       }
     },
     {
       path: "/login",
       name: "login",
       components: {
+        header: StarterHeader,
         default: Login,
+        footer: StarterFooter
       }
     },
     {
       path: "/register",
       name: "register",
       components: {
+        header: StarterHeader,
         default: Register,
+        footer: StarterFooter
       }
     },
     {
       path: "/oferts/:id",
       name: "oferts",
       components: {
-        header: AppHeader,
+        header: StarterHeader,
         default: Oferts,
-        footer: AppFooter
+        footer: StarterFooter
       }
     },
     {
       path: "/appliedOferts",
       name: "appliedOferts",
       components: {
-        header: AppHeader,
+        header: StarterHeader,
         default: AppliedOferts,
-        footer: AppFooter
+        footer: StarterFooter
       }
     },
     {
       path: "/profile",
       name: "profile",
       components: {
-        header: AppHeader,
+        header: StarterHeader,
         default: Profile,
-        footer: AppFooter
+        footer: StarterFooter
       }
     },
     {
       path: "/blog",
       name: "blog",
       components: {
-        header: AppHeader,
+        header: StarterHeader,
         default: Blog,
-        footer: AppFooter
+        footer: StarterFooter
       }
     },
     {
       path: "/article/:slug",
       name: "DetailBlog",
       components: {
-        header: AppHeader,
+        header: StarterHeader,
         default: DetailBlog,
-        footer: AppFooter
+        footer: StarterFooter
       }
     },
   ],

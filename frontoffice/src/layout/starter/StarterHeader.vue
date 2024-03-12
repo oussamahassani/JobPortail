@@ -1,7 +1,7 @@
 <template>
   <header>
     <!-- Home Navigation Menu (Header) -->
-    <nav id="navbarExample" class="navbar navbar-expand-lg fixed-top navbar-dark bg-white">
+    <nav id="navbarExample" class="navbar navbar-expand-lg fixed-top navbar-dark ">
       <div class="container">
         <!-- Get-in-EXP LOGO -->
         <router-link to="/">

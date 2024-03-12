@@ -56,6 +56,14 @@ export default {
              this.articles = response.data
          })*/
     },
+    methods: {
+    callFetchCategoryData() {
+      this.$store.dispatch('fetchAllCategoryData');
+    },
+    callFetchArticleData() {
+      this.$store.dispatch('fetchAllArticleData');
+    },
+  },
     computed: {
 
         filteredArticles() {

@@ -9,7 +9,7 @@
               </h1>
 
               <p class="font-weight-bold pt-1">
-                In Getin-Exp we know how difficult is to get your first job without experience.
+                In Jobi-App we know how difficult is to get your first job without experience.
                 <strong>We've been there too!</strong> That's the reason we've created the perfect job finder.
                 To begin using it, fill the requested forms and click the SHOW RESULTS button.
               </p>
@@ -1261,3 +1261,4 @@ export default {
 }
 
 </style>
+../componentsxyz/BaseDropdown.vue

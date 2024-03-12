@@ -17,7 +17,7 @@
                alt="Logo" @click="goToLanding()"/>
         </div>
       </div>
-      <h2 class="text-justify text-center title-login">Sign up to GetIn-EXP</h2>
+      <h2 class="text-justify text-center title-login">Sign up to Jobi-App</h2>
       <div class="row justify-content-center">
         <div class="col-lg-6">
           <template>
