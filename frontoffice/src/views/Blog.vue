@@ -1,6 +1,6 @@
 <template>
-    <div class="Home">
-        <h1>helloe</h1>
+    <div class="container">
+       
         <!-- Articles -->
         <article v-if="articles.length" v-for="article in filteredArticles" :key="article.slug">
             <h3>

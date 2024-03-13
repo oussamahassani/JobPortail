@@ -1,7 +1,7 @@
 <template>
   <div>
     <br><br>
-    <div class="container pt-lg-md">
+    <div class="container">
         <div class="row justify-content-center">
 
               <h1 class="h1-large text-center">

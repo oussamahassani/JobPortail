@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="margin-top: 5rem" class="container ">
+    <div  class="container ">
       <div class="row">
         <div class="col-lg-6 col-xl-5 mt-10">
           <div class="text-container">

@@ -11,6 +11,7 @@ import StarterHeader from "@/layout/starter/StarterHeader";
 import StarterFooter from "@/layout/starter/StarterFooter";
 import AppliedOferts from "@/views/AppliedOferts";
 import DetailBlog from './views/DetailBlog.vue';
+import ContactUs from './views/Contact-us.vue'
 Vue.use(Router);
 
 export default new Router({
@@ -94,6 +95,15 @@ export default new Router({
       components: {
         header: StarterHeader,
         default: DetailBlog,
+        footer: StarterFooter
+      }
+    },
+    {
+      path: "/contactUs",
+      name: "ContactUs",
+      components: {
+        header: StarterHeader,
+        default: ContactUs,
         footer: StarterFooter
       }
     },

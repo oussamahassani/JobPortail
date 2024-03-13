@@ -1,43 +1,43 @@
-const {User} = require('../models/User');
+const { User } = require('../models/User');
 var bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
 exports.test = async (req, res) => {
-	res.json({hello : "hay"})
+	res.json({ hello: "hay" })
 }
 
 
-exports.getAllUsers = async  (req, res) =>{
+exports.getAllUsers = async (req, res) => {
 	try {
-	  const users = await User.find({}, {firstname: 1, lastname: 1, email: 1});
-	  console.log("ggg")
-	  res.status(200).send(users); 
+		const users = await User.find({}, { firstname: 1, lastname: 1, email: 1 });
+		console.log("ggg")
+		res.status(200).send(users);
 	} catch (error) {
-	  res.status(500).send(error);
-	  console.log("ffff");
-	  console.log(error);
+		res.status(500).send(error);
+		console.log("ffff");
+		console.log(error);
 	}
-  }
-  exports.getAllCoursByUser = async  (req, res) =>{
+}
+exports.getAllCoursByUser = async (req, res) => {
 	try {
-		let coursexiste = await User.findById({_id:req.body.iduser}, {cours:  1});
-		if(coursexiste && coursexiste.cours.length >0){
-			const users = await User.findById({_id:req.body.iduser}, {cours:  1}).populate(['cours']);
-			res.status(200).send(users.cours); 
-		
+		let coursexiste = await User.findById({ _id: req.body.iduser }, { cours: 1 });
+		if (coursexiste && coursexiste.cours.length > 0) {
+			const users = await User.findById({ _id: req.body.iduser }, { cours: 1 }).populate(['cours']);
+			res.status(200).send(users.cours);
+
 		}
-		else{
-			res.status(200).send([]); 
+		else {
+			res.status(200).send([]);
 		}
 
 	} catch (error) {
-	  res.status(500).send(error);
-	  console.log(error);
+		res.status(500).send(error);
+		console.log(error);
 	}
-  }
+}
 exports.findAll = async (req, res) => {
-	let data = await User.find({}).sort({_id:-1}); // select * from Students ;
+	let data = await User.find({}).sort({ _id: -1 }); // select * from Students ;
 	res.json(data);
 };
 exports.findAllByRole = async (req, res) => {
@@ -65,7 +65,7 @@ exports.me = async (req, res) => {
 	res.json(data);
 };
 exports.signup = async (req, res) => {
-	const { email, password, role, firstname, lastname, phone,image } = req.body;
+	const { email, password, role, firstname, lastname, phone, image } = req.body;
 	if (!email || !password) res.status(400).json({ message: 'email or password is missing!' });
 	else {
 		const checkUser = await User.findOne({ email: email });
@@ -87,8 +87,8 @@ exports.signup = async (req, res) => {
 				host: "sandbox.smtp.mailtrap.io",
 				port: 2525,
 				auth: {
-					user: "65b44edcb92d03",
-					pass: "f60888b4928053"
+					user: process.env.MaiTrapUser,
+					pass: process.env.MailTrapPassword
 				}
 			});
 
@@ -105,8 +105,8 @@ exports.signup = async (req, res) => {
 				firstname: firstname,
 				role: role,
 				lastname: lastname,
-				phone : phone ,
-				image:image,
+				phone: phone,
+				image: image,
 			});
 			res.status(200).json(entry);
 		}
@@ -122,11 +122,11 @@ exports.login = async (req, res) => {
 		else {
 			const checkPassword = bcrypt.compareSync(password, checkUser.password);
 			if (checkPassword) {
-				console.log(checkUser );
+				console.log(checkUser);
 				let extend = 1;
 				if (remeberMe) extend = 30;
 				const token = jwt.sign({ id: checkUser.id }, 'secret', { expiresIn: 86400 });
-				res.status(200).send({ auth: true, token: token,email:email,_id:checkUser._id,image:checkUser.image,firstname:checkUser.firstname,lastname:checkUser.lastname ,role:checkUser.role  });
+				res.status(200).send({ auth: true, token: token, email: email, _id: checkUser._id, image: checkUser.image, firstname: checkUser.firstname, lastname: checkUser.lastname, role: checkUser.role });
 			} else res.status(401).json({ message: 'wrong password' });
 		}
 	}
@@ -166,32 +166,32 @@ exports.delete = async (req, res) => {
 };
 
 exports.contact = async (req, res) => {
-	const { email, message, name} = req.body;
+	const { email, message, name } = req.body;
 	if (!email || !message) res.status(400).json({ message: 'email or message is missing!' });
 	else {
-let tmplate ='<div><p><b>message de</b>'+email + '</p>'
-tmplate += '<p> nom :  '+name+ ' </p>'
-tmplate += '<p> message :  '+message+ ' </p>'
-		
-			var transporter = nodemailer.createTransport({
-				host: "sandbox.smtp.mailtrap.io",
-				port: 2525,
-				auth: {
-					user: "65b44edcb92d03",
-					pass: "f60888b4928053"
-				}
-			});
+		let tmplate = '<div><p><b>message de</b>' + email + '</p>'
+		tmplate += '<p> nom :  ' + name + ' </p>'
+		tmplate += '<p> message :  ' + message + ' </p>'
 
-			// send mail with defined transport object
-			let info = await transporter.sendMail({
-				from: 'jobWebSites', // sender address
-				to: email, // list of receivers
-				subject: 'contact Form ✔', // Subject line
-				html: tmplate, // html body
-			});
+		var transporter = nodemailer.createTransport({
+			host: "sandbox.smtp.mailtrap.io",
+			port: 2525,
+			auth: {
+				user: process.env.MaiTrapUser,
+				pass: process.env.MailTrapPassword
+			}
+		});
+		console.log(email, process.env.MaiTrapUser)
+		// send mail with defined transport object
+		let info = await transporter.sendMail({
+			from: 'jobWebSites', // sender address
+			to: email, // list of receivers
+			subject: 'contact Form ✔', // Subject line
+			html: tmplate, // html body
+		});
 
-			res.status(200).json({message:"votre message a eté envoyer avec suceés"});
-		
+		res.status(200).json({ message: "votre message a eté envoyer avec suceés" });
+
 	}
 };
 

@@ -12,6 +12,7 @@ router.patch('/update_password', middleware.verifyToken, user.updatePassword);
 router.delete('/:id_user', user.delete);
 router.get('/', user.findAll);
 router.post('/filter', user.findByFilter);
+router.post('/contactUs', user.contact);
 router.get('/role/:role', user.findAllByRole);
 router.post('/signup', signupValidation, user.signup, validationLogin.validationsProccess);
 router.post('/login', validationLogin.validations, validationLogin.validationsProccess, user.login);

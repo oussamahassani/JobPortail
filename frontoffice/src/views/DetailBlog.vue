@@ -1,6 +1,6 @@
 <template>
-    <div class="Home">
-        <h1>helloe</h1>
+    <div class="container">
+      
         <!-- Articles -->
         <h2>{{ article.title ? article.title : "" }}</h2>
         <p>{{ article.description ? article.description : "" }}</p>
