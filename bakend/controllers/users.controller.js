@@ -3,9 +3,7 @@ var bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
-exports.test = async (req, res) => {
-	res.json({ hello: "hay" })
-}
+
 
 
 exports.getAllUsers = async (req, res) => {
