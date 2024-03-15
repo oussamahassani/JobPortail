@@ -14,7 +14,7 @@ router.get('/', user.findAll);
 router.post('/filter', user.findByFilter);
 router.post('/contactUs', user.contact);
 router.get('/role/:role', user.findAllByRole);
-router.post('/signup', signupValidation, user.signup, validationLogin.validationsProccess);
+router.post('/signup', signupValidation, validationLogin.validationsProccess, user.signup);
 router.post('/login', validationLogin.validations, validationLogin.validationsProccess, user.login);
 router.get('/:id', user.findOne);
 router.patch('/:id', user.updateOne);

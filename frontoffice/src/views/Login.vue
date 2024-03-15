@@ -86,6 +86,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import {API_BASE_URL,LOGIN_ENDPOINT,URL_BACKOFFICE,ROLE_CANDIDAT} from '../store/constant'
+
 export default {
 
   data() {
@@ -359,9 +362,9 @@ export default {
       // Use sweetalert2
       this.$swal('Error', 'Username or password incorrect.\n Please fill all the gaps.', 'error')
     },
-    loginErrorAlert () {
+    loginErrorAlert (message) {
       // Use sweetalert2
-      this.$swal('Error', 'Username or password incorrect.\n Please Change them or create an account.', 'error')
+      this.$swal('Error', message, 'error')
     },
     required (params) {
       for (const elem in params) {
@@ -384,7 +387,7 @@ export default {
       if (!this.required(parameters)) {
         this.errorInAccountAlert()
       } else {
-        let profiles = this.profiles
+      let profiles = this.profiles
         for (let i=0; i < profiles.length; i++) {
           let user = profiles[i].username
           let psw = profiles[i].password
@@ -393,13 +396,40 @@ export default {
             this.logged = true
             this.token = profiles[i].id
             console.log('Account login successful')
+            setTimeout(() => {
             this.goToHomePage()
+          }, 2000)
           }
           else if (i+1 === profiles.length) {
             this.loginErrorAlert()
             this.initForm()
           }
         }
+        /*
+        let email = parameters.username
+          let password = parameters.password
+        axios
+        .post(API_BASE_URL+LOGIN_ENDPOINT,{email,password}) 
+        .then(response => {
+          if(response.data &&  response.data.role && response.data.role == ROLE_CANDIDAT)
+          {
+          this.token = response.data._id
+            console.log('Account login successful')
+            this.goToHomePage()
+         //   this.accountLoginAlert()
+           // this.logged = true
+          }
+          else if(response.data && response.data.role && response.data.role != ROLE_CANDIDAT){
+            window.location.href = URL_BACKOFFICE;
+          }
+          
+        })
+        
+        .catch(error => {
+          this.loginErrorAlert(error.message)
+            this.initForm()
+        })
+  */
       }
     }
   },

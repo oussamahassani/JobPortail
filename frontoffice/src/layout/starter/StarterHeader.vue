@@ -41,24 +41,46 @@ export default {
       token: 0,
     }
   },
+ 
+
   beforeMount() {
+    console.log("before mounted",localStorage.getItem('logged') )
+    /*
     if (localStorage.getItem('logged')) {
       try {
-        this.logged = (localStorage.getItem('logged') === 'true');
+        this.logged = (localStorage.logged === 'true');
         this.token = parseInt(JSON.parse(localStorage.getItem('token')));
+        console.log("this.logged ",this.logged )
       } catch (error) {
         this.logged = false;
         this.token = 0;
       }
-    }
+    }*/
+  },
+  mounted() {
+    this.checkLoggedIn();
+    console.log("monted")
   },
   methods: {
+    checkLoggedIn() {
+      const storedLogged = localStorage.getItem('logged');
+      if (storedLogged !== null) {
+        this.logged = storedLogged === 'true';
+        if (this.logged) {
+          const storedToken = parseInt(localStorage.getItem('token'));
+          if (!isNaN(storedToken)) {
+            this.token = storedToken;
+          }
+        }
+      }
+    },
     logOut() {
       localStorage.setItem('logged', false);
       localStorage.setItem('token', 0);
       localStorage.setItem('appliedOferts', '')
       this.logged = false;
       this.token = 0;
+      this.$router.replace({ path: '/' })
     }
   }
 };

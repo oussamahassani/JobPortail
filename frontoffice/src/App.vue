@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+   // <StarterHeader/>
     <router-view name="header"></router-view>
     <main>
       <fade-transition origin="center" mode="out-in" :duration="250">
@@ -11,12 +12,13 @@
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
-
+//import StarterHeader from "@/layout/starter/StarterHeader";
 export default {
   components: {
-    FadeTransition
+    FadeTransition,
+  //  StarterHeader
   },
-  watch: {
+ /* watch: {
     $route(to, from) {
       if (this.$route) {
         this.$store.dispatch("onStart")
@@ -26,5 +28,6 @@ export default {
   mounted() {
     this.$store.dispatch("onStart")
   },
+  */
 };
 </script>

@@ -7,9 +7,7 @@ export default createStore({
     isAuthenticated: false,
     token: '',
     searchValue: '',
-    category: [],
-    selectedArticle: null,
-    allArticle: []
+
   },
   getters: {
   },
@@ -29,12 +27,7 @@ export default createStore({
       axios.defaults.headers.common['Authorization'] = ""
       localStorage.removeItem("token")
     },
-    getAllCategoryBlog(state, data) {
-      state.category = data;
-    },
-    getAllArticleBlog(state, data) {
-      state.allArticle = data;
-    },
+
 
 
   },
@@ -58,26 +51,7 @@ export default createStore({
 
       }
     },
-    fetchAllCategoryData(context) {
-      axios.get(API_BASE_URL + CATEGORY_ENDPOINT)
-        .then(response => {
-          // Mettre à jour la catégorie avec les données reçues
-          context.commit('getAllCategoryBlog', response.data);
-        })
-        .catch(error => {
-          console.error('Erreur lors de la récupération des données de la catégorie :', error);
-        });
-    },
-    fetchAllArticleData(context) {
-      axios.get(API_BASE_URL + ALL_ARTICLE_ENDPOINT)
-        .then(response => {
-          // Mettre à jour la catégorie avec les données reçues
-          context.commit('getAllArticleBlog', response.data);
-        })
-        .catch(error => {
-          console.error('Erreur lors de la récupération des données de la catégorie :', error);
-        });
-    },
+
   },
   modules: {
   }

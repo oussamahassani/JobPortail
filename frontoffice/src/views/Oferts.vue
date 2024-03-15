@@ -105,17 +105,11 @@
 
 <script>
 import Parallax from "./components/Parallax";
-import BasicElements from "./components/BasicElements";
-import Tabs from "@/components/Tabs/Tabs.vue";
-import TabPane from "@/components/Tabs/TabPane";
 
 export default {
   name: "Oferts",
   components: {
     Parallax,
-    BasicElements,
-    Tabs,
-    TabPane
   },
   data () {
     return {
