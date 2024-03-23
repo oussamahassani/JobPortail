@@ -1,69 +1,116 @@
 <template>
-    <div class="container">
-       
-        <!-- Articles -->
-        <article v-if="articles.length" v-for="article in filteredArticles" :key="article.slug">
-            <h3>
-                <router-link :to="`/article/${article._id}`">
-                    {{ article.title }}
-                </router-link>
-            </h3>
-            <div>
-                {{ article.description }}
-                <router-link :to="`/article/${article._id}`">
-                    + continue reading
-                </router-link>
-            </div>
-            <hr>
-        </article>
-        <div class="alert alert-info" v-else>
-            There is no any posts.
-        </div>
+  <b-skeleton-wrapper :loading="loading">
+      <template #loading>
+        <b-card>
+          <b-skeleton animation="wave" width="85%"></b-skeleton>
+          <b-skeleton animation="wave" width="55%"></b-skeleton>
+          <b-skeleton animation="wave" width="70%"></b-skeleton>
+        </b-card>
 
+      </template>
+    <div class="container-fluid">
+        <div class="d-flex">
+        <b-col cols="3">
+        <!-- Sidebar -->
+        <b-card>
+          <b-card-header>
+            Category Articles
+          </b-card-header>
+          <b-list-group>
+            <b-list-group-item @click="allArticles()">all Articles</b-list-group-item>
+            <div v-if="category.length" v-for="cat in category" :key="cat.name">
+           
+            <b-list-group-item  @click="callFetchArticleDataByCategory(cat._id)">{{cat.name}}</b-list-group-item>
+            </div>
+          </b-list-group>
+        </b-card>
+      </b-col>
+      <b-col>
+        <div v-if="articles.length > 0">
+          
+        <article  v-for="article in articles" :key="article.slug">
+      <h3>
+        <router-link :to="`/article/${article._id}`">
+          {{ article.title }}
+        </router-link>
+      </h3>
+      <div>
+        {{ article.description }}
+        <router-link :to="`/article/${article._id}`">
+          + continue reading
+        </router-link>
+      </div>
+      <hr>
+    </article>
+</div>
+    <!-- Place v-else immediately after the v-for loop -->
+    <div class="alert alert-info" v-else>
+      There are no posts.
     </div>
+  </b-col>
+   
+    </div>
+</div>
+</b-skeleton-wrapper>
 </template>
 
 <script>
 import axios from 'axios'
-import {API_BASE_URL,ALL_ARTICLE_ENDPOINT} from '../store/constant'
-const generateFakeData = () => {
-    const fakeData = [];
+import {API_BASE_URL,ALL_ARTICLE_ENDPOINT,CATEGORY_ENDPOINT,FILTRED_ARTICLE_ENDPOINT} from '../store/constant'
+import {BRow, BCol, BCard, BCardHeader, BListGroup, BListGroupItem,BSkeletonWrapper,BSkeleton } from 'bootstrap-vue';
 
-    for (let i = 1; i <= 10; i++) {
-        const article = {
-            title: `Article ${i}`,
-            description: `Description for Article ${i}. Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-            slug: `article-${i}`
-        };
-
-        fakeData.push(article);
-    }
-
-    return fakeData;
-};
 export default {
     name: 'HomeView',
+    components: {
+    // Register imported BootstrapVue components
+
+    BRow,
+    BCol,
+    BCard,
+    BCardHeader,
+    BListGroup,
+    BListGroupItem,
+    BSkeletonWrapper,
+    BSkeleton
+  },
     data() {
         return {
             articles: '',
+            category:[],
+            loading : false,
         }
     },
     mounted() {
-
-      //  this.articles = generateFakeData()
-         axios
-         .get(API_BASE_URL+ALL_ARTICLE_ENDPOINT) 
+      this.loading = true
+        this.allArticles()
+       this.callFetchCategoryData()
+       this.loading = false
+    },
+    methods: {
+    callFetchCategoryData() {
+        axios
+         .get(API_BASE_URL+CATEGORY_ENDPOINT) 
+         .then(response => {
+             this.category = response.data
+         })
+    },
+    callFetchArticleDataByCategory(id) {
+        axios
+         .post(API_BASE_URL+FILTRED_ARTICLE_ENDPOINT ,{category: id}) 
          .then(response => {
              this.articles = response.data
          })
     },
-    methods: {
-    callFetchCategoryData() {
-      this.$store.dispatch('fetchAllCategoryData');
-    },
-    callFetchArticleData() {
-      this.$store.dispatch('fetchAllArticleData');
-    },
+     allArticles (){
+    axios
+         .get(API_BASE_URL+ALL_ARTICLE_ENDPOINT) 
+         .then(response => {
+             this.articles = response.data
+         })
+},
+log (x){
+    console.log(x)
+}
   },
     computed: {
 

@@ -9,6 +9,7 @@ const JobApplicationSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['applied', 'In Consideration', 'Not Selected'],
+ 
   },
   job: {
     type: mongoose.Schema.Types.ObjectId,
@@ -16,7 +17,6 @@ const JobApplicationSchema = new mongoose.Schema({
     required: [true, 'application should belon to a job'],
   },
   questionsAnswers: [String],
-  lastUpdate: Date,
 
 }, { timestamps: true });
 

@@ -14,13 +14,14 @@ const db = require("./config/database");
 
 const userRouter = require('./routes/users.routes');
 const blogRouter = require('./routes/Blog.routes');
-
+const jobRouter = require('./routes/Job.routes.')
 
 
 
 
 app.use('/users', userRouter)
 app.use('/blog', blogRouter)
+app.use('/jobs',jobRouter)
 
 
 // Define the upload route

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-   // <StarterHeader/>
+
     <router-view name="header"></router-view>
     <main>
       <fade-transition origin="center" mode="out-in" :duration="250">
@@ -12,6 +12,8 @@
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
+
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 //import StarterHeader from "@/layout/starter/StarterHeader";
 export default {
   components: {

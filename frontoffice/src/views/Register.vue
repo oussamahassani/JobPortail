@@ -30,9 +30,9 @@
                     <span class="error-label d-none">First name is not correct</span>
                   </div>
                   <div class="form-input register d-flex f-column">
-                    <input id="surnames-input" type="email" name="surnames" placeholder=" " v-model="surnames">
+                    <input id="surnames-input" type="text" name="lastname" placeholder=" " v-model="lastname">
                     <label for="surnames-input">Last Name</label>
-                    <span class="error-label d-none">Surnames is not correct</span>
+                    <span class="error-label d-none">lastname is not correct</span>
                   </div>
                   <div class="form-input register d-flex f-column">
                     <input id="email-input" type="email" name="email" placeholder=" " v-model="email">
@@ -40,9 +40,9 @@
                     <span class="error-label d-none">Email is not correct</span>
                   </div>
                   <div class="form-input register d-flex f-column">
-                    <input id="username-input" type="text" name="username" placeholder=" " v-model="username">
-                    <label for="username-input">Username</label>
-                    <span class="error-label d-none">Username is not correct</span>
+                    <input id="username-input" type="text" name="username" placeholder=" " v-model="phone">
+                    <label for="username-input">phone</label>
+                    <span class="error-label d-none">phone is not correct</span>
                   </div>
                   <div v-if="pswHidden" class="form-input password d-flex f-column">
                     <input id="password-input-hidden" class="error" type="password" name="password" placeholder=" " v-model="password">
@@ -91,21 +91,23 @@
 
 
 <script>
+import axios from 'axios'
+import {API_BASE_URL,REGISTER_ENDPOINT,ROLE_CANDIDAT} from '../store/constant'
 export default {
 
   data() {
     return {
       email: '',
       firstname: '',
-      surnames: '',
-      username: '',
+      lastname: '',
+      phone: '',
       password: '',
       repeatPassword: '',
       registerUserForm: {
         email: '',
         firstname: '',
-        surnames: '',
-        username: '',
+        lastname: '',
+        phone: '',
         password: '',
         repeatPassword: ''
       },
@@ -117,7 +119,7 @@ export default {
         {
           id: 0,
           name: "John",
-          surnames:"Murray McCuffy",
+          lastname:"Murray McCuffy",
           username: "johnMurray99",
           password: "1234",
           job:"Illustrator and graphic designer",
@@ -389,8 +391,8 @@ export default {
     initForm () {
       this.registerUserForm.email = ''
       this.registerUserForm.firstname = ''
-      this.registerUserForm.surnames= ''
-      this.registerUserForm.username = ''
+      this.registerUserForm.lastname= ''
+      this.registerUserForm.phone = ''
       this.registerUserForm.password = ''
       this.registerUserForm.repeatPassword = ''
     },
@@ -398,8 +400,8 @@ export default {
       const parameters = {
         email: this.email,
         firstname: this.firstname,
-        surnames: this.surnames,
-        username: this.username,
+        lastname: this.lastname,
+        phone: this.phone,
         password: this.password,
         repeatPassword: this.repeatPassword
       }
@@ -408,8 +410,18 @@ export default {
       } else if (!this.checkPsw(parameters)){
         this.errorInPasswordAlert()
       } else {
-        this.accountSignUpAlert()
+        axios
+        .post(API_BASE_URL+REGISTER_ENDPOINT,{...parameters , role :ROLE_CANDIDAT}) 
+        .then(response => {
+          this.accountSignUpAlert()
         this.goToLogin()
+          
+        })
+        
+        .catch(error => {
+          this.signUpErrorAlert()
+        })
+ 
       }
     }
   },

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const mongoose = require("mongoose");
 
 
 const jobSchema = new mongoose.Schema({
@@ -8,12 +7,31 @@ const jobSchema = new mongoose.Schema({
     ref: 'User',
     required: [true, 'job must belong to a recruiter']
   },
-  jobTitle: {
+ 
+  title: {
     type: String,
     minlength: 2,
     maxlength: 100,
     required: [true, 'job must have a title'],
   },
+   company:{
+      type: String,
+   },
+   location:{
+     type: String,
+   },
+   modality:{
+    type: String,
+   },
+   release_date:{
+    type: String,
+   },
+   agreement:{
+    type: String,
+   },
+   work_time:{
+    type: String,
+   },
   experience: {
     type: String,
     enum: [
@@ -26,24 +44,25 @@ const jobSchema = new mongoose.Schema({
       '5 years',
       'More than 5 years',
     ],
-    required: [true, 'job must have experience'],
+   // required: [true, 'job must have experience'],
   },
-  careerLevel: {
+  education: {
     type: String,
     enum: [
       'Student',
       'Entry Level',
       'Experienced',
       'Manager',
+      'Degree',
       'Senior Management',
     ],
-    required: [true, 'job must have career level'],
+    //required: [true, 'job must have career level'],
   },
   salary: {
-    type: Number,
+    type: String,
     required: [true, 'job must have salary'],
   },
-  field: {
+  category: {
     type: String,
     enum: [
       'Accounting/Finance',
@@ -84,12 +103,15 @@ const jobSchema = new mongoose.Schema({
       'Engineering - Other',
       'Education/Teaching',
       'Training/Instructor',
+      'Engineers and Technics',
+      'Construction'
+
     ],
     required: [true, 'job must have a field'],
   },
-  jobDescription: {
+  description: {
     type: String,
-    maxlength: 1000,
+    maxlength: 5000,
     minlength: 5,
     required: [true, 'job must have a description'],
   },
@@ -112,6 +134,6 @@ const jobSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-const job = mongoose.model("Job", jobSchema);
+const Job = mongoose.model("Job", jobSchema);
 
-module.exports = { jobSchema, job };
+module.exports = { jobSchema, Job };

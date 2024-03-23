@@ -7,7 +7,7 @@
       >
       </parallax>
       <div id="profileContainer" class="container">
-          <card class="card-profile border-0">
+          <div class="card-profile border-0">
             <div class="px-4">
               <div class="row justify-content-center">
                 <div class="col-lg-3 order-lg-2">
@@ -19,7 +19,7 @@
                 </div>
               </div>
             </div>
-          </card>
+          </div>
         <h3 class="profile-title retroshadow">{{ this.currentProfile.name}} {{this.currentProfile.surnames}}</h3>
         <p class="category">{{this.currentProfile.job }}</p>
         <div class="content">
@@ -36,7 +36,8 @@
               class="btn btn-default rounded-circle btn-lg"
               rel="tooltip"
               title="Update Profile"
-              @click="inProgress()"
+              @click="goToUpdateProfile()"
+         
           >
             <i class="fa fa-refresh" aria-hidden="true"></i>
             Update profile
@@ -74,7 +75,7 @@
       <div class="container">
         <div class="row-grid">
           <tabs fill class="flex-column flex-md-row">
-            <card shadow slot-scope="{activeTabIndex}">
+            <div shadow slot-scope="{activeTabIndex}">
               <tab-pane key="tab1">
                 <template slot="title" >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-person-fill" viewBox="0 0 16 16">
@@ -89,7 +90,7 @@
                   <small class="text-uppercase"><b>Interests:</b></small>
                 </div>
                 <div v-for="(interest) in currentProfile.interests" class="container" v-bind:key="interest.name">
-                    <base-button class="btn-1 buttonInterests mt-1" outline rounded >{{ interest.name }}</base-button>
+                    <small class="btn-1 buttonInterests mt-1" outline rounded >{{ interest.name }}</small>
                 </div>
               </tab-pane>
               <tab-pane key="tab2">
@@ -174,7 +175,7 @@
                   <h5 class="text-center noExperienceText">There is no experience yet, let's get some!</h5>
                 </div>
               </tab-pane>
-            </card>
+            </div>
           </tabs>
         </div>
       </div>
@@ -185,7 +186,8 @@
 import TabPane from "@/components/Tabs/TabPane";
 import Tabs from "@/components/Tabs/Tabs";
 import Parallax from "@/views/components/Parallax";
-
+import axios from 'axios'
+import {API_BASE_URL,GET_PROFILE_USER_ENDPOINT} from '../store/constant'
 export default {
   name: 'profile',
   bodyClass: 'profile-page',
@@ -198,256 +200,27 @@ export default {
     return {
       token: 0,
       thereIsExperience: true,
-      profiles: [
-        {
-          id: 1,
-          name: "John",
-          surnames:"Murray McCuffy",
-          username: "johnMurray99",
-          password: "1234",
-          image: 'img/theme/team-1-800x800.jpg',
-          job:"Illustrator and graphic designer",
-          aboutMe: "The Illustrator and Graphic Designer is responsible for the creative execution of marketing materials, including illustrations, graphics, photography, and animations. This includes creating original artwork and designs to visually represent a company’s brand.",
-          cv: "52342432",
-          profile_type: "Working",
-          interests:[
-            {
-              name: "Photoshop"
-            },
-            {
-              name: "3D Graphics"
-            },
-            {
-              name: "Adobe"
-            }
-          ],
-          languages:[
-            {
-              id: 1,
-              name: "English",
-              level: "Native",
-              certificateID: false
-            },
-            {
-              id: 2,
-              name: "Spanish",
-              level: "B2",
-              certificateID: true
-            },
-            {
-              id: 3,
-              name: "French",
-              level: "B1",
-              certificateID: true
-            }
-          ],
-          experience:[
-            {
-              title: "Penguin random House Designer Internship",
-              description: "Penguin Random House offers paid internship opportunities to learn about the world of book publishing! Opportunities are available in our Adult & Children’s divisions in business areas such as contracts, editorial, finance, graphic design, managing editorial, marketing, online marketing, production, publicity, sales, subsidiary rights, and operations.",
-              dateStart: "01/02/21",
-              dateEnd: "31/08/21",
-              companyName: "Penguin Random House"
-            }
-          ],
-          certificates:[
-            {
-              certificateID: "C0-1",
-              title: "Diplomas de Español Como Lengua Extranjera B2",
-              expeditionDate: "19/09/19",
-              expeditionCompany: "Universidad de Salamanca"
-            },
-            {
-              certificateID: "C0-2",
-              title: "Diplôme d’Etudes en Langue Française B1",
-              expeditionDate: "17/03/20",
-              expeditionCompany: "Intitut Français"
-            }
-          ],
-          education: [
-            {
-              title: "London Middle School",
-              educationType: "Middle School",
-              dateStart: "10/09/12",
-              dateEnd: "23/06/16",
-              institutionName: "London Public Middle School"
-            },
-            {
-              title: "Humanistic Bachelor",
-              educationType: "High School",
-              dateStart: "01/09/16",
-              dateEnd: "15/06/18",
-              institutionName: "Queen Elisabeth II High School"
-            }
-          ]
-
-        },
-        {
-          id: 2,
-          name: "Fleur",
-          surnames:"Blanchet Dupont",
-          username: "blanchetFleur",
-          password: "1234",
-          image: 'img/theme/team-3-800x800.jpg',
-          aboutMe: "The Illustrator and Graphic Designer is responsible for the creative execution of marketing materials, including illustrations, graphics, photography, and animations. This includes creating original artwork and designs to visually represent a company’s brand.",
-          job:"Machine Learning",
-          cv: "34553",
-          profile_type: "Searching",
-          interests:[
-            {
-              name: "Writing"
-            },
-            {
-              name: "Python"
-            }
-          ],
-          languages:[
-            {
-              id: 1,
-              name: "English",
-              level: "C1",
-              certificateID: true
-            },
-            {
-              id: 2,
-              name: "German",
-              level: "B2",
-              certificateID: true
-            }
-          ],
-          experience:[
-            {
-              title: "Internship in Computer Vision",
-              description: "With the aim of promoting science and innovation and to encourage research in highly talented young students, the Computer Vision Center hosts the Computer Vision Center Internship Program (prize). It is addressed to students, ideally during the last year of their undergraduate studies. The CVC offers these students a research environment that will constitute their first exposure to a research challenge.",
-              dateStart: "10/04/21",
-              dateEnd: "10/04/22",
-              companyName: "CVFC"
-            }
-          ],
-          certificates:[
-            {
-              certificateID: "C1-1",
-              title: "CAE C1",
-              expeditionDate: "23/09/19",
-              expeditionCompany: "Cambridge English Certifications"
-            },
-            {
-              certificateID: "C1-2",
-              title: "GOETHE-ZERTIFIKAT B2",
-              expeditionDate: "17/11/20",
-              expeditionCompany: "Goethe Institut"
-            }
-          ],
-          education: [
-            {
-              title: "Collège",
-              educationType: "Middle School",
-              dateStart: "10/09/12",
-              dateEnd: "23/06/16",
-              institutionName: "Institut de Paris"
-            },
-            {
-              title: "Lycée",
-              educationType: "High School",
-              dateStart: "01/09/16",
-              dateEnd: "15/06/18",
-              institutionName: "Instituto de Vallecas"
-            },
-            {
-              title: "Ingénierie de traitement de l'information",
-              educationType: "Degree",
-              dateStart: "01/09/18",
-              dateEnd: "Current",
-              institutionName: "L'universitè de Lyon"
-            },
-          ]
-        },
-        {
-          id: 3,
-          name: "Carmen",
-          surnames:"Lozano Pelayo",
-          username: "carmenLP",
-          password: "1234",
-          image: 'img/theme/team-4-800x800.jpg',
-          aboutMe: "The Illustrator and Graphic Designer is responsible for the creative execution of marketing materials, including illustrations, graphics, photography, and animations. This includes creating original artwork and designs to visually represent a company’s brand.",
-          job:"Front End Developer",
-          cv: "3r332",
-          profile_type: "Other",
-          interests:[
-            {
-              name: "React"
-            },
-            {
-              name: "Web"
-            },
-            {
-              name: "Apps"
-            }
-          ],
-          languages:[
-            {
-              id: 1,
-              name: "English",
-              level: "C1",
-              certificateID: true
-            },
-            {
-              id: 2,
-              name: "Spanish",
-              level: "Native",
-              certificateID: false
-            },
-            {
-              id: 3,
-              name: "Catalan",
-              level: "Native",
-              certificateID: false
-            }
-          ],
-          experience: 'NO EXPERIENCE',
-          certificates:[
-            {
-              certificateID: "C2-1",
-              title: "CAE C1",
-              expeditionDate: "03/05/21",
-              expeditionCompany: "Cambridge English Certifications"
-            }
-          ],
-          education: [
-            {
-              title: "ESO",
-              educationType: "Middle School",
-              dateStart: "01/09/11",
-              dateEnd: "17/06/15",
-              institutionName: "Instituto de Vallecas"
-            },
-            {
-              title: "Science-technologic Bachelor",
-              educationType: "High School",
-              dateStart: "01/09/15",
-              dateEnd: "23/06/17",
-              institutionName: "Instituto de Vallecas"
-            },
-            {
-              title: "FrontEnd Developer Intensive Course",
-              educationType: "Bootcamp",
-              dateStart: "01/09/17",
-              dateEnd: "02/02/18",
-              institutionName: "IronHack"
-            },
-          ]
-        }
-      ],
-      currentProfile: [],
+      currentProfile : []
     }
   },
   beforeMount() {
     if (localStorage.getItem('token')) {
       try {
-        this.token = parseInt(JSON.parse(localStorage.getItem('token')));
-        this.currentProfile = this.profiles[this.token]
-        this.thereIsExperience = (this.currentProfile.experience !== 'NO EXPERIENCE');
+        this.token = localStorage.getItem('token');
+        
+        axios
+        .get(API_BASE_URL+GET_PROFILE_USER_ENDPOINT+this.token) 
+        .then(response => {
+          this.currentProfile = response.data
+        this.thereIsExperience = this.currentProfile.experience.length >0;
+        })
+        
+        .catch(error => {
+         console.log(error)
+        })
+       
       } catch(error) {
+        console.log(error)
         this.token = 0;
       }
     }
@@ -458,6 +231,9 @@ export default {
     },
     goToAppliedOferts () {
       this.$router.replace({ path: '/appliedOferts' })
+    },
+    goToUpdateProfile () {
+      this.$router.replace({ path: `/updateprofile/${this.token}` })
     }
   }
 };

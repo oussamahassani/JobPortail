@@ -4,6 +4,7 @@ import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
+import UpdateProfile from "./views/UpdateProfile.vue"
 import Home from "./views/Home.vue";
 import Oferts from "./views/Oferts";
 import Blog from "./views/Blog.vue"
@@ -80,6 +81,16 @@ export default new Router({
         footer: StarterFooter
       }
     },
+    {
+      path: "/updateprofile/:id",
+      name: "udateprofile",
+      components: {
+        header: StarterHeader,
+        default: UpdateProfile,
+        footer: StarterFooter
+      }
+    },
+    
     {
       path: "/blog",
       name: "blog",
