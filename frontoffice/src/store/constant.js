@@ -29,4 +29,4 @@ export const GET_OFFRE_BYIDS = '/jobs/byids/'
 
 
 export const ROLE_CANDIDAT = 'CANDIDAT'
-export const URL_BACKOFFICE = 'https://github.com/'
+export const URL_BACKOFFICE = 'http://localhost:5173/'

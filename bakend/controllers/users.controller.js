@@ -4,7 +4,18 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
 
-
+const generatePassword = () => {
+	// Define the length and characters allowed in the password
+	const length = 8;
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	
+	let password = "";
+	for (let i = 0; i < length; i++) {
+	  const randomIndex = Math.floor(Math.random() * charset.length);
+	  password += charset[randomIndex];
+	}
+	return password;
+  };
 
 exports.getAllUsers = async (req, res) => {
 	try {
@@ -154,6 +165,59 @@ exports.updatePassword = async (req, res) => {
 		}
 	}
 };
+
+exports.forgetPassword = async(req,res) => {
+	try {
+		// Assuming req.body.email contains the user's email address
+		const userEmail = req.body.email;
+	console.log(userEmail)
+		// Generate a new random password
+		const newPassword = generatePassword();
+	
+		// Hash the new password before saving it to the database
+		const hashedPassword = await bcrypt.hash(newPassword, 10);
+	
+		// Update the user's password in the database with the new hashed password
+		// Replace the code below with your database update logic
+			const user =await User.findOne({email:userEmail});
+if(!user){
+	res.status(400).json({ message: "User not found" });
+}
+else {
+		await User.updateOne({ email: userEmail }, { password: hashedPassword });
+	
+		// Create Nodemailer transporter
+		const transporter = nodemailer.createTransport({
+		  host: "sandbox.smtp.mailtrap.io",
+		  port: 2525,
+		//  secure: false,
+		  auth: {
+			user: process.env.MaiTrapUser,
+			pass: process.env.MailTrapPassword
+		  },
+		});
+	console.log(newPassword)
+		// Define email options
+		const mailOptions = {
+		  from: "noreplay@jobi.com",
+		  to: userEmail,
+		  subject: "Password Reset",
+		  text: `Your new password is: ${newPassword}`,
+		};
+	
+		// Send email with Nodemailer
+		await transporter.sendMail(mailOptions);
+	
+		// Respond with success message
+		res.status(200).json({ message: "Password reset email sent successfully" });
+	}
+	  } catch (error) {
+		console.error("Error sending password reset email:", error);
+		res.status(500).json({ error: "An error occurred while sending password reset email" });
+	  }
+	
+	
+}
 exports.delete = async (req, res) => {
 	try {
 		await User.deleteOne({ _id: req.params.id_user });

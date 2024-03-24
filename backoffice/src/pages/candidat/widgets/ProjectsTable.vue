@@ -1,24 +1,22 @@
 <script setup lang="ts">
 import { PropType, computed } from 'vue'
 import { defineVaDataTableColumns } from 'vuestic-ui'
-import { Project } from '../types'
-import UserAvatar from '../../users/widgets/UserAvatar.vue'
+
 import ProjectStatusBadge from '../components/ProjectStatusBadge.vue'
 import { Pagination, Sorting } from '../../../data/pages/projects'
 import { useVModel } from '@vueuse/core'
 
 const columns = defineVaDataTableColumns([
-  { label: 'Project name', key: 'project_name', sortable: true },
-  { label: 'Project owner', key: 'project_owner', sortable: true },
-  { label: 'Team', key: 'team', sortable: true },
+  { label: 'Candidat name', key: 'firstname', sortable: true },
+  { label: 'Candidat image', key: 'image', sortable: true },
   { label: 'Status', key: 'status', sortable: true },
-  { label: 'Creation Date', key: 'creation_date', sortable: true },
+  { label: 'Creation Date', key: 'createdAt', sortable: true },
   { label: ' ', key: 'actions' },
 ])
 
 const props = defineProps({
   projects: {
-    type: Array as PropType<Project[]>,
+    type: Array as PropType<any[]>,
     required: true,
   },
   loading: {
@@ -40,8 +38,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (event: 'edit', project: Project): void
-  (event: 'delete', project: Project): void
+  (event: 'delete', project): void
 }>()
 
 const avatarColor = (userName: string) => {
@@ -65,31 +62,18 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
       :columns="columns"
       :loading="loading"
     >
-      <template #cell(project_name)="{ rowData }">
+      <template #cell(firstname)="{ rowData }">
         <div class="ellipsis max-w-[230px] lg:max-w-[450px]">
-          {{ rowData.project_name }}
+          {{ rowData.firstname }}
         </div>
       </template>
-      <template #cell(project_owner)="{ rowData }">
+      <template #cell(image)="{ rowData }">
         <div class="flex items-center gap-2 ellipsis max-w-[230px]">
-          <UserAvatar :user="rowData.project_owner" size="small" />
-          {{ rowData.project_owner.fullname }}
+          <img :src="rowData.image" size="small" />
+         
         </div>
       </template>
-      <template #cell(team)="{ rowData: project }">
-        <VaAvatarGroup
-          size="small"
-          :options="
-            (project as Project).team.map((user) => ({
-              label: user.fullname,
-              src: user.avatar,
-              fallbackText: user.fullname[0],
-              color: avatarColor(user.fullname),
-            }))
-          "
-          :max="5"
-        />
-      </template>
+
       <template #cell(status)="{ rowData: project }">
         <ProjectStatusBadge :status="project.status" />
       </template>
@@ -99,18 +83,10 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
           <VaButton
             preset="primary"
             size="small"
-            color="primary"
-            icon="mso-edit"
-            aria-label="Edit project"
-            @click="$emit('edit', project as Project)"
-          />
-          <VaButton
-            preset="primary"
-            size="small"
             icon="mso-delete"
             color="danger"
             aria-label="Delete project"
-            @click="$emit('delete', project as Project)"
+            @click="$emit('delete', project )"
           />
         </div>
       </template>

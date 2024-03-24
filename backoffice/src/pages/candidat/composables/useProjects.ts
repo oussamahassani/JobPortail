@@ -1,12 +1,10 @@
 import { Ref, ref, unref } from 'vue'
 import {
   getProjects,
-  addProject,
-  updateProject,
   removeProject,
   Sorting,
   Pagination,
-} from '../../../data/pages/projects'
+} from './apiCnadidat'
 import { Project } from '../types'
 import { watchIgnorable } from '@vueuse/core'
 
@@ -15,7 +13,7 @@ const makeSortingRef = () => ref<Sorting>({ sortBy: 'creation_date', sortingOrde
 
 export const useProjects = (options?: { sorting?: Ref<Sorting>; pagination?: Ref<Pagination> }) => {
   const isLoading = ref(false)
-  const projects = ref<Project[]>([])
+  const projects = ref<any[]>([])
 
   const { sorting = makeSortingRef(), pagination = makePaginationRef() } = options ?? {}
 
@@ -25,7 +23,8 @@ export const useProjects = (options?: { sorting?: Ref<Sorting>; pagination?: Ref
       ...unref(sorting),
       ...unref(pagination),
     })
-    projects.value = data as Project[]
+    console.log("fetch data",data)
+    projects.value = data as any[]
 
     ignoreUpdates(() => {
       pagination.value = newPagination
@@ -45,35 +44,11 @@ export const useProjects = (options?: { sorting?: Ref<Sorting>; pagination?: Ref
 
     fetch,
 
-    async add(project: Omit<Project, 'id' | 'creation_date'>) {
-      isLoading.value = true
-      await addProject({
-        ...project,
-        project_owner: project.project_owner.id,
-        team: project.team.map((user) => user.id),
-      })
-      await fetch()
-      isLoading.value = false
-    },
 
-    async update(project: Project) {
-      isLoading.value = true
-      await updateProject({
-        ...project,
-        project_owner: project.project_owner.id,
-        team: project.team.map((user) => user.id),
-      })
-      await fetch()
-      isLoading.value = false
-    },
 
-    async remove(project: Project) {
+    async remove(project: any) {
       isLoading.value = true
-      await removeProject({
-        ...project,
-        project_owner: project.project_owner.id,
-        team: project.team.map((user) => user.id),
-      })
+      await removeProject(project)
       await fetch()
       isLoading.value = false
     },

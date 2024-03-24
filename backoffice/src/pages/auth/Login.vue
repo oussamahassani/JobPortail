@@ -1,10 +1,7 @@
 <template>
   <VaForm ref="form" @submit.prevent="submit">
     <h1 class="font-semibold text-4xl mb-4">Log in</h1>
-    <p class="text-base mb-4 leading-5">
-      New to Vuestic?
-      <RouterLink :to="{ name: 'signup' }" class="font-semibold text-primary">Sign up</RouterLink>
-    </p>
+  
     <VaInput
       v-model="formData.email"
       :rules="[validators.required, validators.email]"
@@ -45,6 +42,8 @@
 </template>
 
 <script lang="ts" setup>
+import axios from 'axios'
+import {ROLE_EMPLOYER,URL_FRONT_OFFICE,ROLE_ADMIN,LOGIN_ENDPOINT,API_BASE_URL} from '../../stores/constant'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm, useToast } from 'vuestic-ui'
@@ -62,8 +61,32 @@ const formData = reactive({
 
 const submit = () => {
   if (validate()) {
-    init({ message: "You've successfully logged in", color: 'success' })
-    push({ name: 'dashboard' })
+    let email = formData.email
+          let password = formData.password
+          let remeberMe = formData.keepLoggedIn
+        axios
+        .post(API_BASE_URL+LOGIN_ENDPOINT,{email,password,remeberMe}) 
+        .then((response: any) => {
+          if(response.data &&  response.data.role && (response.data.role == ROLE_ADMIN || response.data.role ==ROLE_EMPLOYER))
+          {
+         
+            console.log('Account login successful')
+            init({ message: "You've successfully logged in", color: 'success' })
+            push({ name: 'dashboard' })
+         //   this.accountLoginAlert()
+           // this.logged = true
+          }
+          else if(response.data && response.data.role && (response.data.role != ROLE_ADMIN  && response.data.role !=ROLE_EMPLOYER )){
+            window.location.href = URL_FRONT_OFFICE;
+          }
+          
+        })
+        
+        .catch((error: { response: { data: any }; message: any }) => {
+          console.log(error.response.data)
+    
+        })
+
   }
 }
 </script>

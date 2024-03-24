@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { PropType } from 'vue'
-import { Project } from '../types'
+
 import ProjectStatusBadge from '../components/ProjectStatusBadge.vue'
 
 defineProps({
   projects: {
-    type: Array as PropType<Project[]>,
+    type: Array as PropType<any[]>,
     required: true,
   },
   loading: {
@@ -15,8 +15,7 @@ defineProps({
 })
 
 defineEmits<{
-  (event: 'edit', project: Project): void
-  (event: 'delete', project: Project): void
+  (event: 'delete', project: any): void
 }>()
 
 const avatarColor = (userName: string) => {
@@ -34,37 +33,25 @@ const avatarColor = (userName: string) => {
   >
     <VaCard
       v-for="project in projects"
-      :key="project.project_name"
+      :key="project._id"
       :style="{ '--va-card-outlined-border': '1px solid var(--va-background-element)' }"
       outlined
     >
       <VaCardContent class="flex flex-col h-full">
-        <div class="text-[var(--va-secondary)]">{{ project.creation_date }}</div>
+        <div class="text-[var(--va-secondary)]">{{ project.createdAt }}</div>
         <div class="flex flex-col items-center gap-4 grow">
           <h4 class="va-h4 text-center self-stretch overflow-hidden line-clamp-2 text-ellipsis">
-            {{ project.project_name }}
+            {{ project.firstname }} {{ project.lastname }}
           </h4>
           <p>
-            <span class="text-[var(--va-secondary)]">Owner: </span>
-            <span>{{ project.project_owner.fullname }}</span>
+            <span class="text-[var(--va-secondary)]">aboutMe: </span>
+            <span>{{ project.aboutMe }}</span>
           </p>
-          <VaAvatarGroup
-            class="my-4"
-            :options="
-              project.team.map((user) => ({
-                label: user.fullname,
-                src: user.avatar,
-                fallbackText: user.fullname[0],
-                color: avatarColor(user.fullname),
-              }))
-            "
-            :max="5"
-          />
+   
           <ProjectStatusBadge :status="project.status" />
         </div>
         <VaDivider class="my-6" />
         <div class="flex justify-between">
-          <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="$emit('edit', project)" />
           <VaButton preset="secondary" icon="mso-delete" color="danger" @click="$emit('delete', project)" />
         </div>
       </VaCardContent>

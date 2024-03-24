@@ -18,6 +18,8 @@
 </template>
 
 <script lang="ts" setup>
+import axios from 'axios'
+import {FORGET_PASSWORD_ENDPOINT,API_BASE_URL} from '../../stores/constant'
 import { ref } from 'vue'
 import { useForm } from 'vuestic-ui'
 import { useRouter } from 'vue-router'
@@ -28,7 +30,12 @@ const router = useRouter()
 
 const submit = () => {
   if (form.validate()) {
-    router.push({ name: 'recover-password-email' })
+    axios
+        .post(API_BASE_URL+FORGET_PASSWORD_ENDPOINT,{email:email._value}
+) 
+        .then((response: any) => {router.push({ name: 'recover-password-email' })})
+        .catch((err:any) => console.log(err))
+    
   }
 }
 </script>

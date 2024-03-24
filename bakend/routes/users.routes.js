@@ -9,6 +9,7 @@ const middleware = require("../middlewares/auth");
 router.get('/me', middleware.verifyToken, user.me);
 router.patch('/me', middleware.verifyToken, user.update);
 router.patch('/update_password', middleware.verifyToken, user.updatePassword);
+router.post('/forget_password', user.forgetPassword);
 router.delete('/:id_user', user.delete);
 router.get('/', user.findAll);
 router.post('/filter', user.findByFilter);

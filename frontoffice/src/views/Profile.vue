@@ -210,7 +210,7 @@ export default {
         
         axios
         .get(API_BASE_URL+GET_PROFILE_USER_ENDPOINT+this.token) 
-        .then(response => {
+        
           this.currentProfile = response.data
         this.thereIsExperience = this.currentProfile.experience.length >0;
         })
